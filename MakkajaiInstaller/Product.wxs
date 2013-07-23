@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="makkajai" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft" UpgradeCode="a95d58cf-3e02-4c4a-b27b-35692c581bff">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+    <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="makkajai" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+    </Feature>
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <!-- skip licence dialog -->
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+      <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    </UI>
+
+    <CustomAction Id="updateGCompris" ExeCommand="[INSTALLFOLDER]updateGCompris.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="asyncWait"/>
+    <InstallExecuteSequence>
+      <Custom After="InstallFiles" Action="updateGCompris">Not Installed</Custom>
+    </InstallExecuteSequence>
+  </Product>
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="DesktopFolder" SourceName="Desktop"/>
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Makkajai" >
+          <Directory Id="logs" Name="logs"/>
+          <Directory Id="git" Name=".git">
+            <Directory Id="hooks" Name="hooks"></Directory>
+            <Directory Id="info" Name="info"></Directory>
+            <Directory Id="objects" Name="objects">
+              <Directory Id="pack" Name="pack"></Directory>
+            </Directory>
+            <Directory Id="refs" Name="refs">
+              <Directory Id="refs_heads" Name="heads"/>
+              <Directory Id="refs_remotes" Name="remotes">
+                <Directory Id="refs_remotes_origin" Name="origin"/>
+              </Directory>
+            </Directory>
+            <Directory Id="git_logs" Name="logs">
+              <Directory Id="logs_refs" Name="refs">
+                <Directory Id="logs_refs_heads" Name="heads"/>
+                <Directory Id="logs_refs_remotes" Name="remotes">
+                  <Directory Id="logs_refs_remotes_origin" Name="origin"/>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents">
+      <Component Id="APPLICATIONSHORTCUTDESKTOP" DiskId="1" Directory="INSTALLFOLDER">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="Makkajai" Description="Shortcut to Makkajai" Target="[INSTALLFOLDER]runGCompris.bat"
+                  WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder"/>
+        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+        <RegistryValue
+            Root="HKCU"
+            Key="Software/Makkajai"
+            Name="installed"
+            Type="integer"
+            Value="1"
+            KeyPath="yes"/>
+      </Component>
+      <Component Id="SAMPLELOG.LOG" DiskId="1" Directory="logs">
+        <File Id="SAMPLELOG.LOG" Name="samplelog.log" Source="..\makkajai\logs\samplelog.log" />
+      </Component>
+      <Component Id="RUNGCOMPRIS.BAT" DiskId="1" Directory="INSTALLFOLDER">
+        <File Id="RUNGCOMPRIS.BAT" Name="runGCompris.bat" Source="..\makkajai\runGCompris.bat" />
+      </Component>
+      <Component Id="UPDATEGCOMPRIS.BAT" DiskId="1" Directory="INSTALLFOLDER">
+        <File Id="UPDATEGCOMPRIS.BAT" Name="updateGCompris.bat" Source="..\makkajai\updateGCompris.bat" />
+      </Component>
+      <Component Id="UPDATEGCOMPRIS.SH" DiskId="1" Directory="INSTALLFOLDER">
+        <File Id="UPDATEGCOMPRIS.SH" Name="updateGCompris.sh" Source="..\makkajai\updateGCompris.sh" />
+      </Component>
+      <Component Id="CONFIG" DiskId="1" Directory="git">
+        <File Id="CONFIG" Name="config" Source="..\makkajai\git\config" />
+      </Component>
+      <Component Id="DESCRIPTION" DiskId="1"  Directory="git">
+        <File Id="DESCRIPTION" Name="description" Source="..\makkajai\git\description" />
+      </Component>
+      <Component Id="HEAD" DiskId="1" Directory="git">
+        <File Id="HEAD" Name="HEAD" Source="..\makkajai\git\HEAD" />
+      </Component>
+      <Component Id="INDEX" DiskId="1" Directory="git">
+        <File Id="INDEX" Name="index" Source="..\makkajai\git\index" />
+      </Component>
+      <Component Id="PACKED_REFS" DiskId="1" Directory="git">
+        <File Id="PACKED_REFS" Name="packed-refs" Source="..\makkajai\git\packed-refs" />
+      </Component>
+      <Component Id="APPLYPATCH_MSG.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="APPLYPATCH_MSG.SAMPLE" Name="applypatch-msg.sample" Source="..\makkajai\git\hooks\applypatch-msg.sample" />
+      </Component>
+      <Component Id="COMMIT_MSG.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="COMMIT_MSG.SAMPLE" Name="commit-msg.sample" Source="..\makkajai\git\hooks\commit-msg.sample" />
+      </Component>
+      <Component Id="POST_COMMIT.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="POST_COMMIT.SAMPLE" Name="post-commit.sample" Source="..\makkajai\git\hooks\post-commit.sample" />
+      </Component>
+      <Component Id="POST_RECEIVE.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="POST_RECEIVE.SAMPLE" Name="post-receive.sample" Source="..\makkajai\git\hooks\post-receive.sample" />
+      </Component>
+      <Component Id="POST_UPDATE.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="POST_UPDATE.SAMPLE" Name="post-update.sample" Source="..\makkajai\git\hooks\post-update.sample" />
+      </Component>
+      <Component Id="PRE_APPLYPATCH.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="PRE_APPLYPATCH.SAMPLE" Name="pre-applypatch.sample" Source="..\makkajai\git\hooks\pre-applypatch.sample" />
+      </Component>
+      <Component Id="PRE_COMMIT.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="PRE_COMMIT.SAMPLE" Name="pre-commit.sample" Source="..\makkajai\git\hooks\pre-commit.sample" />
+      </Component>
+      <Component Id="PRE_REBASE.SAMPLE" DiskId="1"  Directory="hooks">
+        <File Id="PRE_REBASE.SAMPLE" Name="pre-rebase.sample" Source="..\makkajai\git\hooks\pre-rebase.sample" />
+      </Component>
+      <Component Id="PREPARE_COMMIT_MSG.SAMPLE" DiskId="1"  Directory="hooks">
+        <File Id="PREPARE_COMMIT_MSG.SAMPLE" Name="prepare-commit-msg.sample" Source="..\makkajai\git\hooks\prepare-commit-msg.sample" />
+      </Component>
+      <Component Id="UPDATE.SAMPLE" DiskId="1" Directory="hooks">
+        <File Id="UPDATE.SAMPLE" Name="update.sample" Source="..\makkajai\git\hooks\update.sample" />
+      </Component>
+      <Component Id="EXCLUDE" DiskId="1" Directory="info">
+        <File Id="EXCLUDE" Name="exclude" Source="..\makkajai\git\info\exclude" />
+      </Component>
+      <Component Id="HEAD_1" DiskId="1"  Directory="git_logs">
+        <File Id="HEAD_1" Name="HEAD" Source="..\makkajai\git\logs\HEAD" />
+      </Component>
+      <Component Id="MASTER" DiskId="1" Directory="logs_refs_heads">
+        <File Id="MASTER" Name="master" Source="..\makkajai\git\logs\refs\heads\master" />
+      </Component>
+      <Component Id="HEAD_2" DiskId="1" Directory="logs_refs_remotes_origin">
+        <File Id="HEAD_2" Name="HEAD" Source="..\makkajai\git\logs\refs\remotes\origin\HEAD" />
+      </Component>
+      <Component Id="PACK_IDX" DiskId="1" Directory="pack">
+        <File Id="PACK_IDX" Name="pack-697b915659165c4d5dfe75e15bd7fb440b2d9e2e.idx" Source="..\makkajai\git\objects\pack\pack-697b915659165c4d5dfe75e15bd7fb440b2d9e2e.idx" />
+      </Component>
+      <Component Id="PACK_PACK" DiskId="1" Directory="pack">
+        <File Id="PACK_PACK" Name="pack-697b915659165c4d5dfe75e15bd7fb440b2d9e2e.pack" Source="..\makkajai\git\objects\pack\pack-697b915659165c4d5dfe75e15bd7fb440b2d9e2e.pack" />
+      </Component>
+      <Component Id="MASTER_1" DiskId="1" Directory="refs_heads">
+        <File Id="MASTER_1" Name="master" Source="..\makkajai\git\refs\heads\master" />
+      </Component>
+      <Component Id="HEAD_3" DiskId="1" Directory="refs_remotes_origin">
+        <File Id="HEAD_3" Name="HEAD" Source="..\makkajai\git\refs\remotes\origin\HEAD" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
