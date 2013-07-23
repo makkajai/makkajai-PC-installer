@@ -5,7 +5,7 @@
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
-
+    <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
     <Feature Id="ProductFeature" Title="makkajai" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
     </Feature>
@@ -56,20 +56,17 @@
 
   <Fragment>
     <ComponentGroup Id="ProductComponents">
-      <Component Id="APPLICATIONSHORTCUTDESKTOP" DiskId="1" Directory="INSTALLFOLDER">
-        <Shortcut Id="ApplicationDesktopShortcut" Name="Makkajai" Description="Shortcut to Makkajai" Target="[INSTALLFOLDER]runGCompris.bat"
-                  WorkingDirectory="INSTALLFOLDER" Directory="DesktopFolder"/>
-        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
-        <RegistryValue
-            Root="HKCU"
-            Key="Software/Makkajai"
-            Name="installed"
-            Type="integer"
-            Value="1"
-            KeyPath="yes"/>
-      </Component>
       <Component Id="SAMPLELOG.LOG" DiskId="1" Directory="logs">
         <File Id="SAMPLELOG.LOG" Name="samplelog.log" Source="..\makkajai\logs\samplelog.log" />
+      </Component>
+      <Component Id="MAKKAJAI.EXE" DiskId="1" Directory="INSTALLFOLDER">
+        <File Id="MAKKAJAI.EXE" Name="Makkajai.exe" Source="..\makkajai\Makkajai.exe" >
+          <Shortcut Id="desktopShortCut" Directory="DesktopFolder" Name="makkajai" WorkingDirectory="INSTALLDIR" 
+                    Icon="shortcuticon.ico" IconIndex="0" Advertise="yes" />
+        </File>
+        <RemoveFolder Id="DesktopFolder" On="uninstall" />
+        <RemoveFile Id="Files" On="uninstall" Name="*.*" />
+        <RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
       </Component>
       <Component Id="RUNGCOMPRIS.BAT" DiskId="1" Directory="INSTALLFOLDER">
         <File Id="RUNGCOMPRIS.BAT" Name="runGCompris.bat" Source="..\makkajai\runGCompris.bat" />
@@ -88,7 +85,7 @@
       </Component>
       <Component Id="HEAD" DiskId="1" Directory="git">
         <File Id="HEAD" Name="HEAD" Source="..\makkajai\git\HEAD" />
-      </Component>
+      </Component>
       <Component Id="INDEX" DiskId="1" Directory="git">
         <File Id="INDEX" Name="index" Source="..\makkajai\git\index" />
       </Component>
@@ -150,5 +147,6 @@
         <File Id="HEAD_3" Name="HEAD" Source="..\makkajai\git\refs\remotes\origin\HEAD" />
       </Component>
     </ComponentGroup>
+    <Icon Id="shortcuticon.ico" SourceFile="shortcuticon.ico"/>
   </Fragment>
 </Wix>
