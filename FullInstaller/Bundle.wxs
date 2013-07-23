@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="Makkajai" Version="1.0.0.0" Manufacturer="Makkajai" UpgradeCode="91377dd2-37f2-4741-a358-0e32f7cbf68e">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense">
+      <bal:WixStandardBootstrapperApplication LicenseUrl=""/>
+    </BootstrapperApplicationRef>
+    <Chain>
+			<ExePackage SourceFile="..\others\Git-1.8.3-preview20130601.exe" Id="Git" InstallCommand="/s"/> 
+			<MsiPackage SourceFile="..\MakkajaiInstaller\bin\Release\MakkajaiInstaller.msi" After="Git"/> 
+		</Chain>
+	</Bundle>
+</Wix>
