@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="makkajai" Language="1033" Version="1.0.0.0" Manufacturer="Microsoft" UpgradeCode="a95d58cf-3e02-4c4a-b27b-35692c581bff">
+  <Product Id="*" Name="makkajai" Language="1033" Version="1.0.0.0" Manufacturer="makkajai" UpgradeCode="a95d58cf-3e02-4c4a-b27b-35692c581bff">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -60,8 +60,8 @@
         <File Id="SAMPLELOG.LOG" Name="samplelog.log" Source="..\makkajai\logs\samplelog.log" />
       </Component>
       <Component Id="MAKKAJAI.EXE" DiskId="1" Directory="INSTALLFOLDER">
-        <File Id="MAKKAJAI.EXE" Name="Makkajai.exe" Source="..\makkajai\Makkajai.exe" >
-          <Shortcut Id="desktopShortCut" Directory="DesktopFolder" Name="makkajai" WorkingDirectory="INSTALLDIR" 
+        <File Id="MAKKAJAI.EXE" Name="Makkajai.exe" Source="..\makkajai\Makkajai.exe" KeyPath="yes">
+          <Shortcut Id="desktopShortCut" Directory="DesktopFolder" Name="makkajai" WorkingDirectory="INSTALLFOLDER" 
                     Icon="shortcuticon.ico" IconIndex="0" Advertise="yes" />
         </File>
         <RemoveFolder Id="DesktopFolder" On="uninstall" />
@@ -147,6 +147,6 @@
         <File Id="HEAD_3" Name="HEAD" Source="..\makkajai\git\refs\remotes\origin\HEAD" />
       </Component>
     </ComponentGroup>
-    <Icon Id="shortcuticon.ico" SourceFile="shortcuticon.ico"/>
+    <Icon Id="shortcuticon.ico" SourceFile="makkajai.ico"/>
   </Fragment>
 </Wix>

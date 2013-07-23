@@ -30,7 +30,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="shortcuticon.ico" />
+    <Content Include="makkajai.ico" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
