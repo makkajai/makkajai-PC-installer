@@ -5,7 +5,7 @@
       <bal:WixStandardBootstrapperApplication LicenseUrl=""/>
     </BootstrapperApplicationRef>
     <Chain>
-			<ExePackage SourceFile="..\others\Git-1.8.3-preview20130601.exe" Id="Git" InstallCommand="/s"/> 
+			<ExePackage SourceFile="..\others\Git-1.8.3-preview20130601.exe" Id="Git" InstallCommand="/silent"/> 
 			<MsiPackage SourceFile="..\MakkajaiInstaller\bin\Release\MakkajaiInstaller.msi" After="Git"/> 
 		</Chain>
 	</Bundle>

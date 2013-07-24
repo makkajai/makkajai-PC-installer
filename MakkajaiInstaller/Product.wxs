@@ -18,8 +18,10 @@
     </UI>
 
     <CustomAction Id="updateGCompris" ExeCommand="[INSTALLFOLDER]updateGCompris.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="asyncWait"/>
+    <CustomAction Id="deleteAll" ExeCommand="[INSTALLFOLDER]deleteAll.bat" Directory="INSTALLFOLDER" Execute="deferred" Return="ignore"/>
     <InstallExecuteSequence>
       <Custom After="InstallFiles" Action="updateGCompris">Not Installed</Custom>
+      <Custom Before="RemoveFiles" Action="deleteAll">Installed</Custom>
     </InstallExecuteSequence>
   </Product>
   <Fragment>
@@ -64,9 +66,9 @@
           <Shortcut Id="desktopShortCut" Directory="DesktopFolder" Name="makkajai" WorkingDirectory="INSTALLFOLDER" 
                     Icon="shortcuticon.ico" IconIndex="0" Advertise="yes" />
         </File>
-        <RemoveFolder Id="DesktopFolder" On="uninstall" />
-        <RemoveFile Id="Files" On="uninstall" Name="*.*" />
-        <RemoveFolder Id="INSTALLFOLDER" On="uninstall" />
+      </Component>
+      <Component Id="DELETEALL.BAT" DiskId="1" Directory="INSTALLFOLDER">
+        <File Id="DELETEALL.BAT" Name="deleteAll.bat" Source="..\makkajai\deleteAll.bat" />
       </Component>
       <Component Id="RUNGCOMPRIS.BAT" DiskId="1" Directory="INSTALLFOLDER">
         <File Id="RUNGCOMPRIS.BAT" Name="runGCompris.bat" Source="..\makkajai\runGCompris.bat" />
