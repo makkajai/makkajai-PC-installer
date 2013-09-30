@@ -31,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="makkajai.ico" />
+    <Content Include="makkajai.png" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

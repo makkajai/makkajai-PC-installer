@@ -10,7 +10,7 @@ ECHO Let me try a bit more, please wait... >> ./logs/update.log
 @echo off
 PING -n 3 www.google.com|find "Reply from " >NUL
 IF NOT ERRORLEVEL 1 goto :SUCCESS
-IF ERRORLEVEL 1 goto :TRYIP
+IF ERRORLEVEL 1 goto :FAILURE
 
 :SUCCESS
 ECHO You have an active Internet connection, checking if there are updates available >> ./logs/update.log
@@ -23,3 +23,4 @@ goto :END
 
 :END
 start gcompris.exe
+exit

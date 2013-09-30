@@ -12,7 +12,7 @@
     <UI>
       <UIRef Id="WixUI_InstallDir" />
       <!-- skip licence dialog -->
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2" >1</Publish>
       <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
       <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     </UI>
@@ -22,6 +22,7 @@
     <InstallExecuteSequence>
       <Custom After="InstallFiles" Action="updateGCompris">Not Installed</Custom>
       <Custom Before="RemoveFiles" Action="deleteAll">Installed</Custom>
+      <ScheduleReboot Sequence="1000"/>
     </InstallExecuteSequence>
   </Product>
   <Fragment>
